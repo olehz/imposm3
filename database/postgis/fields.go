@@ -76,6 +76,7 @@ func init() {
 		"int64":              &simpleColumnType{"BIGINT"},
 		"float32":            &simpleColumnType{"REAL"},
 		"hstore_string":      &simpleColumnType{"HSTORE"},
+		"member_string":      &simpleColumnType{"BIGINT[]"},
 		"geometry":           &geometryType{"GEOMETRY"},
 		"validated_geometry": &validatedGeometryType{geometryType{"GEOMETRY"}},
 	}

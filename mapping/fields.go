@@ -19,6 +19,8 @@ func init() {
 		"bool":                 {"bool", "bool", Bool, nil},
 		"boolint":              {"boolint", "int8", BoolInt, nil},
 		"id":                   {"id", "int64", Id, nil},
+		"int64":                {"int64", "int64", Int64, nil},
+		"member":               {"member_tags", "member_string", MemberString, nil},
 		"string":               {"string", "string", String, nil},
 		"direction":            {"direction", "int8", Direction, nil},
 		"integer":              {"integer", "int32", Integer, nil},
@@ -131,6 +133,14 @@ func Integer(val string, elem *element.OSMElem, match Match) interface{} {
 	return v
 }
 
+func Int64(val string, elem *element.OSMElem, match Match) interface{} {
+	v, err := strconv.ParseInt(val, 10, 64)
+	if err != nil {
+		return nil
+	}
+	return v
+}
+
 func Id(val string, elem *element.OSMElem, match Match) interface{} {
 	return elem.Id
 }
@@ -173,6 +183,11 @@ func HstoreString(val string, elem *element.OSMElem, match Match) interface{} {
 		tags = append(tags, `"`+hstoreReplacer.Replace(k)+`"=>"`+hstoreReplacer.Replace(v)+`"`)
 	}
 	return strings.Join(tags, ", ")
+}
+
+
+func MemberString(val string, elem *element.OSMElem, match Match) interface{} {
+	return "{"+val+"}"
 }
 
 var wayRanks map[string]int

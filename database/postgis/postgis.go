@@ -48,6 +48,9 @@ func createTable(tx *sql.Tx, spec TableSpec) error {
 	if err != nil {
 		return &SQLError{sql, err}
 	}
+	if spec.GeometryType == "" {
+		return nil
+	}
 
 	err = addGeometryColumn(tx, spec.FullName, spec)
 	if err != nil {

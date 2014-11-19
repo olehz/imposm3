@@ -181,6 +181,7 @@ func Import() {
 			relations,
 			db, progress,
 			tagmapping.PolygonMatcher(),
+			tagmapping.StreetMatcher(),
 			config.BaseOptions.Srid)
 		relWriter.SetLimiter(geometryLimiter)
 		relWriter.EnableConcurrent()
