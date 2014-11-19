@@ -35,14 +35,18 @@ func (m *Mapping) RelationTagFilter() TagFilterer {
 	mappings := make(map[Key]map[Value][]DestTable)
 	m.mappings("linestring", mappings)
 	m.mappings("polygon", mappings)
+	m.mappings("relation", mappings)
 	tags := make(map[Key]bool)
 	m.extraTags("linestring", tags)
 	m.extraTags("polygon", tags)
+	m.extraTags("relation", tags)
 	// do not filter out type tag
 	mappings["type"] = map[Value][]DestTable{
-		"multipolygon": []DestTable{},
-		"boundary":     []DestTable{},
-		"land_area":    []DestTable{},
+		"multipolygon": 	[]DestTable{},
+		"boundary":     	[]DestTable{},
+		"land_area":    	[]DestTable{},
+		"associatedStreet": []DestTable{},
+		"street":    		[]DestTable{},
 	}
 	return &RelationTagFilter{TagFilter{mappings, tags}}
 }
@@ -115,7 +119,7 @@ func (f *RelationTagFilter) Filter(tags *element.Tags) bool {
 		return false
 	}
 	if t, ok := (*tags)["type"]; ok {
-		if t != "multipolygon" && t != "boundary" && t != "land_area" {
+		if t != "multipolygon" && t != "boundary" && t != "land_area" && t != "associatedStreet" && t != "street" {
 			*tags = nil
 			return false
 		}
@@ -131,10 +135,11 @@ func (f *RelationTagFilter) Filter(tags *element.Tags) bool {
 		*tags = nil
 		return false
 	}
-	tagCount := len(*tags)
 	f.TagFilter.Filter(tags)
 
 	// we removed tags...
+	/*
+	tagCount := len(*tags)
 	if len(*tags) < tagCount {
 		expectedTags := 0
 		if _, ok := (*tags)["name"]; ok {
@@ -151,6 +156,7 @@ func (f *RelationTagFilter) Filter(tags *element.Tags) bool {
 			return false
 		}
 	}
+	*/
 	// always return true here since we found a matching type
 	return true
 }

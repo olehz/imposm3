@@ -217,12 +217,14 @@ func BuildRelGeometry(rel *element.Relation, rings []*Ring, srid int) (*geos.Geo
 func relationTags(relTags, wayTags element.Tags) element.Tags {
 	result := make(element.Tags)
 	for k, v := range relTags {
+		/*
 		if k == "name" || k == "type" {
 			continue
 		}
+		*/
 		result[k] = v
 	}
-
+/*
 	if len(result) == 0 {
 		// relation does not have tags? use way tags
 		for k, v := range wayTags {
@@ -234,6 +236,7 @@ func relationTags(relTags, wayTags element.Tags) element.Tags {
 			result["name"] = name
 		}
 	}
+*/
 	return result
 }
 

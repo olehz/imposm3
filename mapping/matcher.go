@@ -25,6 +25,13 @@ func (m *Mapping) PolygonMatcher() RelWayMatcher {
 	return &tagMatcher{mappings, m.tables("polygon"), filters, true}
 }
 
+func (m *Mapping) StreetMatcher() RelWayMatcher {
+	mappings := make(TagTables)
+	m.mappings("relation", mappings)
+	filters := m.ElementFilters()
+	return &tagMatcher{mappings, m.tables("relation"), filters, true}
+}
+
 type Match struct {
 	Key         string
 	Value       string

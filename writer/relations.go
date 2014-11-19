@@ -3,6 +3,8 @@ package writer
 import (
 	"sync"
 	"time"
+	"strconv"
+	"strings"
 
 	"github.com/omniscale/imposm3/cache"
 	"github.com/omniscale/imposm3/database"
@@ -19,6 +21,7 @@ type RelationWriter struct {
 	singleIdSpace  bool
 	rel            chan *element.Relation
 	polygonMatcher mapping.RelWayMatcher
+	streetMatcher mapping.RelWayMatcher
 	maxGap         float64
 }
 
@@ -30,6 +33,7 @@ func NewRelationWriter(
 	inserter database.Inserter,
 	progress *stats.Statistics,
 	matcher mapping.RelWayMatcher,
+	streetMatcher mapping.RelWayMatcher,
 	srid int,
 ) *OsmElemWriter {
 	maxGap := 1e-1 // 0.1m
@@ -47,6 +51,7 @@ func NewRelationWriter(
 		},
 		singleIdSpace:  singleIdSpace,
 		polygonMatcher: matcher,
+		streetMatcher:  streetMatcher,
 		rel:            rel,
 		maxGap:         maxGap,
 	}
@@ -69,6 +74,50 @@ func (rw *RelationWriter) loop() {
 NextRel:
 	for r := range rw.rel {
 		rw.progress.AddRelations(1)
+
+		if r.Tags["type"] == "street" || r.Tags["type"] == "associatedStreet" {
+			var streets[]string
+			var houses[]string
+			for _, m := range r.Members {
+				if m.Role == "street" && m.Type == 1 {
+					streets = append(streets, strconv.FormatInt(m.Id, 10))
+				}
+				if m.Role == "house" && (m.Type == 1 || m.Type == 2) {
+					var id int64
+					if m.Type == 2 {
+						id = m.Id * -1
+					} else {
+						id = m.Id
+					}
+					houses = append(houses, strconv.FormatInt(id, 10))
+				}
+			}
+			if len(streets) > 0 && len(houses) > 0 {
+				if len(streets) > 0 {
+					r.Tags["streets"] = strings.Join(streets, ", ")
+				}
+				if len(houses) > 0 {
+					r.Tags["houses"] = strings.Join(houses, ", ")
+				}
+
+				matches := rw.streetMatcher.MatchRelation(r)
+				rel := element.Relation(*r)
+				rel.Id = rw.relId(r.Id)
+				err := rw.inserter.InsertPoint(rel.OSMElem, matches)
+				if err != nil {
+					if errl, ok := err.(ErrorLevel); !ok || errl.Level() > 0 {
+						log.Warn(err)
+					}
+					continue
+				}
+			}
+			continue NextRel
+		}
+
+		if !(r.Tags["type"] == "boundary" || r.Tags["type"] == "multipolygon") {
+			continue NextRel
+		}
+
 		err := rw.osmCache.Ways.FillMembers(r.Members)
 		if err != nil {
 			if err != cache.NotFound {
@@ -76,7 +125,21 @@ NextRel:
 			}
 			continue NextRel
 		}
+		var admin_centre[]string
+		var subareas[]string
 		for _, m := range r.Members {
+			if m.Role == "admin_centre" && m.Type == 0 {
+				admin_centre = append(admin_centre, strconv.FormatInt(m.Id, 10))
+			}
+			if m.Role == "subarea" && (m.Type == 1 || m.Type == 2) {
+				var id int64
+				if m.Type == 2 {
+					id = m.Id * -1
+				} else {
+					id = m.Id
+				}
+				subareas = append(subareas, strconv.FormatInt(id, 10))
+			}
 			if m.Way == nil {
 				continue
 			}
@@ -88,6 +151,12 @@ NextRel:
 				continue NextRel
 			}
 			rw.NodesToSrid(m.Way.Nodes)
+		}
+		if len(admin_centre) > 0 {
+			r.Tags["admin_centre"] = strings.Join(admin_centre, ", ")
+		}
+		if len(subareas) > 0 {
+			r.Tags["subareas"] = strings.Join(subareas, ", ")
 		}
 
 		// BuildRelation updates r.Members but we need all of them
