@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/omniscale/imposm3/element"
-	"github.com/omniscale/imposm3/logging"
+	"github.com/olehz/imposm3/element"
+	"github.com/olehz/imposm3/logging"
 )
 
 var log = logging.NewLogger("mapping")

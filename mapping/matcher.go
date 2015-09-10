@@ -1,7 +1,7 @@
 package mapping
 
 import (
-	"github.com/omniscale/imposm3/element"
+	"github.com/olehz/imposm3/element"
 )
 
 func (m *Mapping) PointMatcher() NodeMatcher {

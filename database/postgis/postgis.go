@@ -8,10 +8,10 @@ import (
 	"sync/atomic"
 
 	pq "github.com/lib/pq"
-	"github.com/omniscale/imposm3/database"
-	"github.com/omniscale/imposm3/element"
-	"github.com/omniscale/imposm3/logging"
-	"github.com/omniscale/imposm3/mapping"
+	"github.com/olehz/imposm3/database"
+	"github.com/olehz/imposm3/element"
+	"github.com/olehz/imposm3/logging"
+	"github.com/olehz/imposm3/mapping"
 )
 
 var log = logging.NewLogger("PostGIS")

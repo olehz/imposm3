@@ -8,16 +8,16 @@ import (
 	"strings"
 	"sync"
 
-	osmcache "github.com/omniscale/imposm3/cache"
-	"github.com/omniscale/imposm3/element"
-	"github.com/omniscale/imposm3/geom/geos"
-	"github.com/omniscale/imposm3/geom/limit"
-	"github.com/omniscale/imposm3/logging"
-	"github.com/omniscale/imposm3/mapping"
-	"github.com/omniscale/imposm3/parser/pbf"
-	"github.com/omniscale/imposm3/proj"
-	"github.com/omniscale/imposm3/stats"
-	"github.com/omniscale/imposm3/util"
+	osmcache "github.com/olehz/imposm3/cache"
+	"github.com/olehz/imposm3/element"
+	"github.com/olehz/imposm3/geom/geos"
+	"github.com/olehz/imposm3/geom/limit"
+	"github.com/olehz/imposm3/logging"
+	"github.com/olehz/imposm3/mapping"
+	"github.com/olehz/imposm3/parser/pbf"
+	"github.com/olehz/imposm3/proj"
+	"github.com/olehz/imposm3/stats"
+	"github.com/olehz/imposm3/util"
 )
 
 var log = logging.NewLogger("reader")

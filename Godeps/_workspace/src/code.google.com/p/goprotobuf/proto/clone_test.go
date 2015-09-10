@@ -34,7 +34,7 @@ package proto_test
 import (
 	"testing"
 
-	"code.google.com/p/goprotobuf/proto"
+	"github.com/golang/protobuf/proto"
 
 	pb "./testdata"
 )

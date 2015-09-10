@@ -37,7 +37,7 @@ import (
 	"testing"
 
 	. "./testdata"
-	. "code.google.com/p/goprotobuf/proto"
+	. "github.com/golang/protobuf/proto"
 )
 
 type UnmarshalTextTest struct {

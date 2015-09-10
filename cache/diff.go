@@ -9,8 +9,8 @@ import (
 	"sort"
 	"sync"
 
-	"github.com/omniscale/imposm3/cache/binary"
-	"github.com/omniscale/imposm3/element"
+	"github.com/olehz/imposm3/cache/binary"
+	"github.com/olehz/imposm3/element"
 )
 
 type byInt64 []int64

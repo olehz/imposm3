@@ -89,7 +89,7 @@
 
 		package example
 
-		import "code.google.com/p/goprotobuf/proto"
+		import "github.com/golang/protobuf/proto"
 
 		type FOO int32
 		const (
@@ -168,7 +168,7 @@
 		import (
 			"log"
 
-			"code.google.com/p/goprotobuf/proto"
+			"github.com/golang/protobuf/proto"
 			"./example.pb"
 		)
 

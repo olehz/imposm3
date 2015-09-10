@@ -3,7 +3,7 @@ package mapping
 import (
 	"testing"
 
-	"github.com/omniscale/imposm3/element"
+	"github.com/olehz/imposm3/element"
 )
 
 func TestBool(t *testing.T) {

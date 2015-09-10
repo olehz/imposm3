@@ -15,7 +15,7 @@ package binary
 // etc.) are converted to a single ASCII control char (0x01-0x1f)
 
 import (
-	"github.com/omniscale/imposm3/element"
+	"github.com/olehz/imposm3/element"
 	"unicode/utf8"
 )
 

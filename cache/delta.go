@@ -2,8 +2,8 @@ package cache
 
 import (
 	"container/list"
-	"github.com/omniscale/imposm3/cache/binary"
-	"github.com/omniscale/imposm3/element"
+	"github.com/olehz/imposm3/cache/binary"
+	"github.com/olehz/imposm3/element"
 	"sort"
 	"sync"
 )

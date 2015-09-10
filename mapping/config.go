@@ -5,7 +5,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/omniscale/imposm3/element"
+	"github.com/olehz/imposm3/element"
 )
 
 type Field struct {

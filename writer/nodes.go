@@ -1,13 +1,13 @@
 package writer
 
 import (
-	"github.com/omniscale/imposm3/cache"
-	"github.com/omniscale/imposm3/database"
-	"github.com/omniscale/imposm3/element"
-	"github.com/omniscale/imposm3/geom"
-	"github.com/omniscale/imposm3/geom/geos"
-	"github.com/omniscale/imposm3/mapping"
-	"github.com/omniscale/imposm3/stats"
+	"github.com/olehz/imposm3/cache"
+	"github.com/olehz/imposm3/database"
+	"github.com/olehz/imposm3/element"
+	"github.com/olehz/imposm3/geom"
+	"github.com/olehz/imposm3/geom/geos"
+	"github.com/olehz/imposm3/mapping"
+	"github.com/olehz/imposm3/stats"
 	"sync"
 )
 

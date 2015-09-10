@@ -10,12 +10,6 @@ It is designed to create databases that are optimized for rendering (i.e. genera
 Imposm 3 is written in Go and it is a complete rewrite of the previous Python implementation.
 Configurations/mappings and cache files are not compatible with Imposm 2, but they share a similar architecture.
 
-
-It is released as open source under the [Apache License 2.0][].
-
-[Apache License 2.0]: http://www.apache.org/licenses/LICENSE-2.0.html
-
-
 The development of Imposm 3 was sponsored by [Omniscale](http://omniscale.com/) and development will continue as resources permit.
 Please get in touch if you need commercial support or if you need specific features.
 
@@ -86,23 +80,15 @@ Import of Europe 11GB PBF with generalized tables:
 Current status
 --------------
 
-Imposm 3 is in alpha stadium and there is no official release yet.
-The import itself is working however and it is already used for production databases.
+Imposm 3 is used in production but there is no official release yet.
 
 ### Missing ###
 
 Compared to Imposm 2:
 
-* Documentation
-* Support for other projections than EPSG:3857
-* Import of XML files
-
-Other missing features:
-
-* Automatic download of diff files
-* Tile expire list for re-rendering updated areas
-* Background mode for diff-import (update DB in background)
-* Improve parallelization of diff import
+* Support for other projections than EPSG:3857 or EPSG:4326
+* Import of XML files (unlikely to be implemented in the future, use [osmosis](http://wiki.openstreetmap.org/wiki/Osmosis) to convert XML to PBF first)
+* Custom field/filter functions
 
 Installation
 ------------
@@ -110,9 +96,8 @@ Installation
 ### Binary
 
 There are no official releases, but you find development builds at <http://imposm.org/static/rel/>.
-These builds are for x86 64bit Linux and require *no* further depedecies. Download, untar and start `imposm3`.
-(Note: These binaries require glibc >= 2.15 at the moment.
-Ubuntu 12.04 is recent enough, Debian 7 not. Future binary releases will work on older versions as well.)
+These builds are for x86 64bit Linux and require *no* further dependencies. Download, untar and start `imposm3`.
+(Note: These binaries require glibc >= 2.15 at the moment. Ubuntu 12.04 is recent enough, Debian 7 not.)
 
 ### Source
 
@@ -124,7 +109,7 @@ You need [Go >=1.1](http://golang.org).
 
 #### C/C++ libraries
 
-Other dependencies are [libleveldb][], [libgeos][], [protobuf][] and [libsqlite3][].
+Other dependencies are [libleveldb][], [libgeos][] and [protobuf][].
 Imposm 3 was tested with recent versions of these libraries, but you might succeed with older versions.
 GEOS >=3.2 is recommended, since it became much more robust when handling invalid geometries.
 For best performance use [HyperLevelDB][libhyperleveldb] as an in-place replacement for libleveldb.
@@ -133,17 +118,21 @@ For best performance use [HyperLevelDB][libhyperleveldb] as an in-place replacem
 [libleveldb]: https://code.google.com/p/leveldb/
 [libhyperleveldb]: https://github.com/rescrv/HyperLevelDB
 [libgeos]: http://trac.osgeo.org/geos/
-[libsqlite3]: http://www.sqlite.org/
 [protobuf]: https://code.google.com/p/protobuf/
 
 #### Go libraries
 
-Imposm3 uses the following libraries. `go get` will fetch these:
+Imposm3 uses the following libraries.
 
 - <https://github.com/jmhodges/levigo>
-- <https://code.google.com/p/goprotobuf/proto>
-- <https://code.google.com/p/goprotobuf/protoc-gen-go>
+- <https://github.com/golang/protobuf/proto>
+- <https://github.com/golang/protobuf/protoc-gen-go>
 - <https://github.com/lib/pq>
+
+`go get` will fetch these, but you can also use [godep][] to use a provided (vendorized) set of these dependencies.
+
+[godep]: https://github.com/tools/godep
+
 
 #### Other
 
@@ -163,16 +152,25 @@ Create a new [Go workspace](http://golang.org/doc/code.html):
 
 Get Imposm 3 and all dependencies:
 
-    git clone https://github.com/omniscale/imposm3 src/imposm3
-    go get imposm3
-    go install imposm3
+    go get github.com/olehz/imposm3
+    go install github.com/olehz/imposm3
 
 Done. You should now have an imposm3 binary in `$GOPATH/bin`.
 
 Go compiles to static binaries and so Imposm 3 has no runtime dependencies to Go.
 Just copy the `imposm3` binary to your server for deployment. The C/C++ libraries listed above are still required though.
 
+##### Godep
 
+Imposm contains a fixed set of the dependencies that are known to work. You need to install Imposm with [godep][] to compile with this set.
+
+    git clone https://github.com/omniscale/imposm3 src/github.com/omniscale/imposm3
+    cd src/github.com/omniscale/imposm3
+    godep go install ./...
+
+### FreeBSD
+
+On FreeBSD you can use the ports system: Simply fetch https://github.com/thomersch/imposm3-freebsd and run `make install`.
 
 Usage
 -----
@@ -208,11 +206,14 @@ For more options see:
 
     imposm3 import -help
 
-Sorry, that's all documentation for the moment.
-
 
 Note: TLS/SSL support is disabled by default due to the lack of renegotiation support in Go's TLS implementation. You can re-enable encryption by setting the `PGSSLMODE` environment variable or the `sslmode` connection option to `require` or `verify-full`, eg: `-connect postgis://host/dbname?sslmode=require`. You will need to disable renegotiation support on your server to prevent connection errors on larger imports. You can do this by setting `ssl_renegotiation_limit` to 0 in your PostgreSQL server configuration.
 
+
+Documentation
+-------------
+
+The latest documentation can be found here: <http://imposm.org/docs/imposm3/latest/>
 
 Support
 -------
@@ -228,6 +229,18 @@ The source code is available at: <https://github.com/omniscale/imposm3/>
 
 You can report any issues at: <https://github.com/omniscale/imposm3/issues>
 
+License
+-------
+
+Imposm 3 is released as open source under the Apache License 2.0. See LICENSE.
+
+All dependencies included as source code are released under a BSD-ish license except the YAML package.
+The YAML package is released as LGPL3 with an exception that permits static linking. See LICENSE.deps.
+
+All dependencies included in binary releases are released under a BSD-ish license except the GEOS package.
+The GEOS package is released as LGPL3 and is linked dynamically. See LICENSE.bin.
+
+
 ### Test ###
 
 #### Unit tests ####
@@ -237,10 +250,24 @@ You can report any issues at: <https://github.com/omniscale/imposm3/issues>
 
 #### System tests ####
 
-There is a system test that imports and updates OSM data and verifies the database content.
-This test is written in Python and requires `nose`, `shapely` and `psycopg2`. You also need `osmosis` to create test PBF files.
+There are system test that import and update OSM data and verify the database content.
+
+##### Dependencies #####
+
+These tests are written in Python and requires `nose`, `shapely` and `psycopg2`.
+
+On a recent Ubuntu can install the following packages for that: `python-nose python-shapely python-psycopg2`
+Or you can [install a Python virtualenv](https://virtualenv.pypa.io/en/latest/installation.html):
+
+    virtualenv imposm3test
+    source imposm3test/bin/activate
+    pip install nose shapely psycopg2
+
+You also need `osmosis` to create test PBF files.
 There is a Makefile that (re)builds `imposm3` and creates all test files if necessary and then runs the test itself.
 
     make test
 
-WARNING: It uses your local PostgeSQL database (`import` schema), if you have one. Change the database with the standard PGXXX environment variables.
+Call `make test-system` to skip the unit tests.
+
+WARNING: It uses your local PostgeSQL database (`import` schema). Change the database with the standard `PGDATABASE`, `PGHOST`, etc. environment variables.

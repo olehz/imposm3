@@ -2,10 +2,10 @@ package pbf
 
 import (
 	"bytes"
-	"code.google.com/p/goprotobuf/proto"
+	"github.com/golang/protobuf/proto"
 	"compress/zlib"
 	"fmt"
-	"github.com/omniscale/imposm3/parser/pbf/osmpbf"
+	"github.com/olehz/imposm3/parser/pbf/osmpbf"
 	"io"
 	"log"
 	"os"

@@ -4,8 +4,8 @@ import (
 	"math"
 	"testing"
 
-	"github.com/omniscale/imposm3/element"
-	"github.com/omniscale/imposm3/geom/geos"
+	"github.com/olehz/imposm3/element"
+	"github.com/olehz/imposm3/geom/geos"
 )
 
 type coord struct {

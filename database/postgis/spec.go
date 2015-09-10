@@ -2,7 +2,7 @@ package postgis
 
 import (
 	"fmt"
-	"github.com/omniscale/imposm3/mapping"
+	"github.com/olehz/imposm3/mapping"
 	"strings"
 )
 

@@ -2,18 +2,18 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/omniscale/imposm3/cache"
+	"github.com/olehz/imposm3/cache"
 	golog "log"
 	"os"
 	"runtime"
 
-	"github.com/omniscale/imposm3/cache/query"
-	"github.com/omniscale/imposm3/config"
-	"github.com/omniscale/imposm3/diff"
-	"github.com/omniscale/imposm3/geom/limit"
-	"github.com/omniscale/imposm3/import_"
-	"github.com/omniscale/imposm3/logging"
-	"github.com/omniscale/imposm3/stats"
+	"github.com/olehz/imposm3/cache/query"
+	"github.com/olehz/imposm3/config"
+	"github.com/olehz/imposm3/diff"
+	"github.com/olehz/imposm3/geom/limit"
+	"github.com/olehz/imposm3/import_"
+	"github.com/olehz/imposm3/logging"
+	"github.com/olehz/imposm3/stats"
 )
 
 var log = logging.NewLogger("")

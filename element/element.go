@@ -5,7 +5,7 @@ import (
 	"math"
 	"sort"
 
-	"github.com/omniscale/imposm3/geom/geos"
+	"github.com/olehz/imposm3/geom/geos"
 )
 
 type Tags map[string]string
