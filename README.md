@@ -124,7 +124,7 @@ For best performance use [HyperLevelDB][libhyperleveldb] as an in-place replacem
 
 Imposm3 uses the following libraries.
 
-- <https://github.com/jmhodges/levigo>
+- <https://github.com/olehz/hyperleveldb-go>
 - <https://github.com/golang/protobuf/proto>
 - <https://github.com/golang/protobuf/protoc-gen-go>
 - <https://github.com/lib/pq>

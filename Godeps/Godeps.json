@@ -10,7 +10,7 @@
 			"Rev": "39e27fc0f226450c58e11eda145b542bc5dff3fe"
 		},
 		{
-			"ImportPath": "github.com/jmhodges/levigo",
+			"ImportPath": "github.com/olehz/hyperleveldb-go",
 			"Rev": "1ddad808d437abb2b8a55a950ec2616caa88969b"
 		},
 		{

@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/jmhodges/levigo"
+	levigo "github.com/olehz/hyperleveldb-go"
 	"log"
 	"os"
 	"path/filepath"

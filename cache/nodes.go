@@ -1,7 +1,7 @@
 package cache
 
 import (
-	"github.com/jmhodges/levigo"
+	levigo "github.com/olehz/hyperleveldb-go"
 	"github.com/olehz/imposm3/cache/binary"
 	"github.com/olehz/imposm3/element"
 )

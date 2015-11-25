@@ -3,7 +3,7 @@ package cache
 import (
 	bin "encoding/binary"
 	"errors"
-	"github.com/jmhodges/levigo"
+	levigo "github.com/olehz/hyperleveldb-go"
 	"os"
 	"path/filepath"
 )
